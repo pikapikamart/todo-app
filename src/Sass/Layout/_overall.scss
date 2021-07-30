@@ -1,0 +1,297 @@
+@use "../Abstract/functions" as func;
+@use "../Abstract/variables" as var;
+
+
+.heading {
+  $root: &;
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: func.rem(32);
+
+  &__title {
+    color: #FFFFFF;
+    font-size: func.rem(28);
+    letter-spacing: 6px;
+  }
+  
+  &__modes {
+    height: func.rem(28);
+    overflow: hidden;
+    position: relative;
+    width: func.rem(28);
+
+    input[type='radio'] {
+      height: func.rem(20);
+      opacity: 0;
+      position: absolute;
+      right: 0;
+      width: 20px;
+
+      &:focus-visible {
+
+        ~ #{$root}__focus-trick {
+          outline: 2px dashed #FFFFFF;
+          outline-offset: 2px;
+          z-index: 59;
+        }
+      }
+
+      &:first-of-type {
+
+        &:checked {
+
+          + label {
+            opacity: 0;
+            transform: translateX(28px) rotate(360deg);
+          }
+
+          ~ input[type='radio'] {
+            
+            + label {
+              opacity: 1;
+              transform: translateX(-3px);
+            }
+          }
+        }
+      }
+    }
+
+    label {
+      cursor: pointer;
+      display: inline-block;
+      height: func.rem(20);
+      position: absolute;
+      right: 1px;
+      top: 1px;
+      transition: transform .75s ease,
+                  opacity .75s ease;
+      width: func.rem(20);
+      z-index: 20;
+
+      &:first-of-type {
+        background: url("../Images/icon-moon.svg") no-repeat center center;
+        background-size: cover;
+        opacity: 1;
+        transform: translateX(-3px);
+      }
+  
+      &:last-of-type {
+        background: url("../Images/icon-sun.svg") no-repeat center center;
+        background-size: cover;
+        opacity: 0;
+        transform: translateX(28px) rotate(360deg);
+      }
+    }
+  }
+
+  &__mode-wrapper {
+    position: relative;
+  }
+
+  &__focus-trick {
+    height: func.rem(20);
+    position: absolute;
+    right: 4px;
+    top: 3px;
+    width: func.rem(20);
+  }
+}
+
+.form {
+  background-color: var(--todobox-color);
+  border-radius: 4px;
+  margin-bottom: func.rem(16);
+
+  &__todo {
+    background-color: transparent;
+    background-image: 
+    radial-gradient(
+      func.rem(18) circle at func.rem(28) func.rem(24),
+      var(--todobox-color) 50%,
+      transparent 51%
+    ),radial-gradient(
+      func.rem(20) circle at func.rem(28) func.rem(24),
+      var(--color-three) 50%,
+      transparent 51%
+    );
+    border-radius: 4px;
+    color: var(--todotext-color);
+    height: func.rem(48);
+    padding-left: func.rem(52);
+    width: 100%;
+  }
+}
+
+.todo {
+  $root: &;
+
+  &__items {
+    // border-radius: 4px;
+    // overflow-y: hidden;
+  }
+
+  &__check {
+    height: func.rem(20);
+    left: func.rem(20);
+    opacity: 0;
+    position: absolute;
+    top: func.rem(16);
+    width: func.rem(20);
+
+    &:focus-visible {
+
+      + #{$root}__label {
+
+        &::before {
+          box-shadow: 0 0 1px 2px var(--todobox-color),
+                      0 0 1px 3px var(--color-outline);
+        }
+      }
+    }
+
+    &:checked {
+
+      ~ #{$root}__label {
+        color: var(--color-two);
+        text-decoration: line-through;
+
+        &::before {
+          animation: checked .3s ease-in-out forwards;
+        }
+
+        &::after {
+          opacity: 0;
+        }
+      }
+    }
+  }
+
+  &__item {
+    align-items: center;
+    background-color: var(--todobox-color);
+    border-bottom: 1px solid var(--color-three);
+    color: var(--todotext-color);
+    display: flex;
+    height: func.rem(53);
+    justify-content: space-between;
+    padding: 0 func.rem(20);
+    position: relative;
+    transition: transform .3s ease;
+
+    &:first-of-type {
+      border-radius: 4px 4px 0 0;
+    }
+
+    &.enter {
+      transform: translateX(3%);
+    }
+
+    &.drag {
+      opacity: 0.3;
+    }
+  }
+
+  &__label {
+    padding-left: func.rem(32);
+    position: relative;
+    transition: color .3s ease;
+
+    &::before {
+      content:  url("../Images/icon-check.svg");
+      border-radius: 50%;
+      background: var.$check-bg;
+      height: func.rem(20);
+      left: 0;
+      padding: 6px 0 0 5px;
+      position: absolute;
+      transform: translateY(-25%);
+      transform-origin: center;
+      width: func.rem(20); 
+    }
+
+    &::after {
+      content: "";
+      background: var(--todobox-color);
+      border: 1px solid var(--color-three);
+      border-radius: 50%;
+      height: func.rem(22);
+      left: -1px;
+      position: absolute;
+      transform: translateY(-25%);
+      transition: opacity .3s ease;
+      top: -1px;
+      // transition: transform .3s ease,
+      //             border-color .3s ease;
+      width: func.rem(22);
+    }
+
+    // &:hover {
+
+    //   &::after {
+    //     border-color: transparent;
+    //     transform: scale(.85);
+    //   }
+    // }
+  }
+
+  &__remove {
+    background: url("../Images/icon-cross.svg") no-repeat center center;
+    background-size: cover;
+    height: func.rem(13);
+    width: func.rem(13);
+  }
+
+  &__remaining {
+    align-items: center;
+    background-color: var(--todobox-color);
+    border-radius: 0 0 4px 4px;
+    color: var(--color-one);
+    display: flex;
+    height: func.rem(48);
+    justify-content: space-between;
+    margin-bottom: func.rem(16);
+    padding: 0 func.rem(20);
+  }
+
+  &__options {
+    align-items: center;
+    border-radius: 4px;
+    background-color: var(--todobox-color);
+    color: var(--color-one);
+    display: flex;
+    font-size: func.rem(14);
+    font-weight: 700;
+    height: func.rem(48);
+    justify-content: center;
+  }
+
+  &__option {
+    
+    &:nth-of-type(2) {
+      margin: 0 func.rem(18);
+    }
+
+    button {
+      padding: 0;
+    }
+
+    &.selected {
+      color: var.$b-blue;
+    }
+  }
+}
+
+@keyframes checked {
+  20% {
+    transform: scale(.9) translateY(-25%);
+  }
+  50% {
+    transform: scale(1.15) translateY(-25%);
+  }
+  75% {
+    transform: scale(.9) translateY(-25%);
+  }
+  100% {
+    transform: scale(1) translateY(-25%);
+  }
+}

@@ -1,0 +1,58 @@
+@use "../Abstract/functions" as func;
+@use "../Abstract/variables" as var;
+
+
+body {
+  background-color: var(--body-color);
+  font-family: 'Josefin Sans', sans-serif;
+  font-size: func.rem(12);
+  padding: func.rem(48) func.rem(24);
+  position: relative;
+
+  &::before,
+  &::after {
+    content: "";
+    height: func.rem(200);
+    left: 0;
+    padding-top: func.fluid(38, 4vw, 40);
+    position: absolute;
+    top: 0;
+    transition: opacity .5s ease;
+    width: 100%;
+  }
+
+  &::before {
+    background: url("../Images/bg-mobile-light.jpg") no-repeat center center;
+    background-size: cover;
+    z-index: 9;
+  }
+
+  &::after{
+    background: url("../Images/bg-mobile-dark.jpg") no-repeat center center;
+    background-size: cover;
+    z-index: 10;
+  }
+
+  &[data-theme='lightmode'] {
+    
+  }
+}
+
+h1 {
+  color: #FFFFFF;
+  font-size: func.rem(28);
+}
+
+main {
+  position: relative;
+  z-index: 20;
+}
+
+input,
+button {
+  
+  &:focus-visible {
+    outline: 2px dashed var(--color-outline);
+    outline-offset: 2px;
+  }
+}
