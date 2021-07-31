@@ -119,7 +119,7 @@ const TodoItem = props =>{
         checked={isCompleted}
       />
       <label className='todo__label' htmlFor={`todo-${props.data.id}`}>
-      <span className="visually-hidden">check to complete todo item</span>
+      <span className="visually-hidden">complete todo item</span>
         <span>{props.data.todo}</span>
         
       </label>
