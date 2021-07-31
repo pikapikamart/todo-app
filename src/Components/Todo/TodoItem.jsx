@@ -1,52 +1,52 @@
 import { useState, useEffect, useRef } from "react";
-import { getData, setData } from "../Utilities";
+import { getData, setData, updateLocalData } from "../Utilities";
 
 
 const TodoItem = props =>{
   const [isCompleted, setIsCompleted] = useState(false);
   const [isDeleted, setIsDeleted] = useState(false);
+  const [selectionChange, setSelectionChange] = useState(false);
   const [swappedElement, setSwappedElement] = useState("");
   const checkTodo = useRef();
-  console.log(isCompleted);
-  const handleTodoCheck = event => setIsCompleted(event.target.checked);
+  
+  
+  const handleTodoCheckCompleted = event => {
+    setSelectionChange(true);
+    setIsCompleted(event.target.checked);
+  }
 
-  const handleTodoRemove = () => setIsDeleted(true);
+  const handleTodoRemove = () => {
+    setIsDeleted(true);
+    props.delete(props.data.todo);
+  };
 
+  // Checks previous session if todo item is completed or not
   useEffect(() =>{
-    setIsCompleted(props.checked);
+    setIsCompleted(props.data.completed);
   }, []);
 
   // Handle any completions of any todo items
   useEffect(() =>{
-    const todoData = getData("todo");
-    const checkTodoDatas = form =>{
-      todoData.forEach(todo => {
-        if (todo.id === props.index) {
-          todo.completed = form;
-          checkTodo.current.checked = form;
-        }
+    const handleTodoItemsDataUpdate = () =>{
+      updateLocalData(todoData => {
+        const todoItem = todoData.find(todo => todo.id === props.data.id);
+        todoItem.completed = selectionChange ? isCompleted : props.data.completed;
+        return todoData;
       })
     }
-
-    if (isCompleted || (props.from === "Completed" && checkTodo.current.checked)) {
-      checkTodoDatas(true);
-    }  if(props.checked){
-      checkTodoDatas(true);
-    } if(!props.checked){
-      checkTodoDatas(false);
-    }
-
-    setData("todo", todoData);
-    props.renderTodoList();
     
+    handleTodoItemsDataUpdate();
+
+    if (props.from !== "All") {
+      props.renderTodoList();
+    }
+    setSelectionChange(true);
   }, [isCompleted]);
 
   // Handle the deletions of any todo items
   useEffect(() =>{
     if (isDeleted) {
-      const todoData = getData("todo");
-      const filteredData = todoData.filter(item => item.id !== props.index);
-      setData("todo", filteredData);
+      updateLocalData(todoData => todoData.filter(todo => todo.id !== props.data.id));
       props.renderTodoList();
     }
   }, [isDeleted])
@@ -58,7 +58,9 @@ const TodoItem = props =>{
       const todoData = Array.from(getData("todo"));
       const index1 = todoData.findIndex(item => item.id === parseInt(props.currentDrag.current.dataset.id));
       const index2 = todoData.findIndex(item => item.id === parseInt(swappedElement.dataset.id));
-      [todoData[index1], todoData[index2]] = [todoData[index2], todoData[index1]];
+      if (index1 >=0 && index2 >= 0) {
+        [todoData[index1], todoData[index2]] = [todoData[index2], todoData[index1]]
+      } 
       setData("todo", todoData);
       props.renderTodoList();
       setSwappedElement("");
@@ -99,7 +101,7 @@ const TodoItem = props =>{
 
   return (
     <li className='todo__item' 
-      data-id={props.index}
+      data-id={props.data.id}
       draggable
       onDragStart={dragStart}
       onDragEnter={dragEnter}
@@ -111,18 +113,19 @@ const TodoItem = props =>{
       <input 
         className='todo__check' 
         type="checkbox" 
-        id={`todo-${props.index}`}
-        onChange={handleTodoCheck}
+        id={`todo-${props.data.id}`}
+        onChange={handleTodoCheckCompleted}
         ref={checkTodo}
+        checked={isCompleted}
       />
-      <label className='todo__label' htmlFor={`todo-${props.index}`}>
+      <label className='todo__label' htmlFor={`todo-${props.data.id}`}>
       <span className="visually-hidden">check to complete todo item</span>
-        <span>{props.todo}</span>
+        <span>{props.data.todo}</span>
         
       </label>
       <button 
         className='todo__remove' 
-        aria-label={`remove ${props.todo} todo item`}
+        aria-label={`remove ${props.data.todo} todo item`}
         onClick={handleTodoRemove} />
     </li>
   );

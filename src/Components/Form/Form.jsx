@@ -1,14 +1,15 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { setData, getData } from "../Utilities";
 
 
-const Form = props =>{
-
+const Form = ({viewRef, renderTodoList}) =>{
+  const formLiveRegion = useRef();
   const [newTodo, setNewTodo] = useState({
     completed: false,
     todo: "",
     id: ""
   });
+
 
   useEffect(() =>{
     if (newTodo.todo) {
@@ -18,8 +19,11 @@ const Form = props =>{
       } else {
         setData("todo", [newTodo]);
       }
-      props.viewRef("All");
-      props.renderTodoList();
+      viewRef("All");
+      renderTodoList();
+      formLiveRegion.current.textContent = "Successfuly added todo item";
+      const timeOut = setTimeout(() => formLiveRegion.current.textContent = "", 200);
+      return () => clearTimeout(timeOut);
     }
   }, [newTodo]);
 
@@ -47,6 +51,7 @@ const Form = props =>{
           aria-label="Create a new todoitem..."
           autoComplete='off' />
       </div>
+      <div ref={formLiveRegion} className="visually-hidden" aria-live='polite'></div>
     </form>
   );
 } 

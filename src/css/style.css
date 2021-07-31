@@ -7,6 +7,7 @@
   --color-two: #4d5066;
   --color-three: #393a4c;
   --color-outline: #FFFFFF;
+  --shadow: transparent;
 }
 
 html {
@@ -14,8 +15,7 @@ html {
   font-size: 100%;
 }
 
-ul[class],
-ol[class],
+ol,
 ul {
   list-style: none;
   padding: 0;
@@ -87,20 +87,34 @@ button {
   width: 1px;
 }
 
-.darkmode {
-  --body-color: red;
+.lightmode {
+  --body-color: #F9F9F9;
+  --todobox-color: #FFFFFF;
+  --todotext-color: hsl(235, 19%, 35%);
+  --color-two: hsl(233, 11%, 84%);
+  --color-three: hsl(233, 11%, 84%);
+  --color-outline: hsl(235, 19%, 35%);
+  --shadow: rgba(143, 143, 143, 0.1);
+}
+
+#root {
+  max-width: 33.75rem;
+  width: 100%;
 }
 
 body {
   background-color: var(--body-color);
+  display: flex;
   font-family: "Josefin Sans", sans-serif;
-  font-size: 0.75rem;
-  padding: 3rem 1.5rem;
+  font-size: clamp(0.75rem, 2vw, 1.125rem);
+  justify-content: center;
+  padding: clamp(3rem, 10vw, 4.875rem) 1.5rem;
   position: relative;
+  transition: background-color 0.5s ease;
 }
 body::before, body::after {
   content: "";
-  height: 12.5rem;
+  height: clamp(12.5rem, 24vw, 18.75rem);
   left: 0;
   padding-top: clamp(2.375rem, 4vw, 2.5rem);
   position: absolute;
@@ -118,6 +132,10 @@ body::after {
   background-size: cover;
   z-index: 10;
 }
+body.lightmode::after {
+  opacity: 0;
+}
+
 h1 {
   color: #FFFFFF;
   font-size: 1.75rem;
@@ -134,21 +152,30 @@ button:focus-visible {
   outline-offset: 2px;
 }
 
+@media (min-width: 50em) {
+  body::before {
+    background-image: url("../Images/bg-desktop-light.jpg");
+  }
+  body::after {
+    background-image: url("../Images/bg-desktop-dark.jpg");
+  }
+}
 .heading {
+  align-items: center;
   display: flex;
   justify-content: space-between;
   margin-bottom: 2rem;
 }
 .heading__title {
   color: #FFFFFF;
-  font-size: 1.75rem;
+  font-size: clamp(1.75rem, 5vw, 2.5rem);
   letter-spacing: 6px;
 }
 .heading__modes {
-  height: 1.75rem;
+  height: clamp(1.75rem, 5vw, 2.125rem);
   overflow: hidden;
   position: relative;
-  width: 1.75rem;
+  width: clamp(1.75rem, 5vw, 2.125rem);
 }
 .heading__modes input[type=radio] {
   height: 1.25rem;
@@ -175,14 +202,14 @@ button:focus-visible {
 .heading__modes label {
   cursor: pointer;
   display: inline-block;
-  height: 1.25rem;
+  height: clamp(1.25rem, 3vw, 1.625rem);
   position: absolute;
   right: 1px;
   top: 1px;
   transition: opacity 0.75s ease, -webkit-transform 0.75s ease;
   transition: transform 0.75s ease, opacity 0.75s ease;
   transition: transform 0.75s ease, opacity 0.75s ease, -webkit-transform 0.75s ease;
-  width: 1.25rem;
+  width: clamp(1.25rem, 3vw, 1.625rem);
   z-index: 20;
 }
 .heading__modes label:first-of-type {
@@ -203,28 +230,49 @@ button:focus-visible {
   position: relative;
 }
 .heading__focus-trick {
-  height: 1.25rem;
+  height: clamp(1.25rem, 3vw, 1.625rem);
   position: absolute;
   right: 4px;
   top: 3px;
-  width: 1.25rem;
+  width: clamp(1.25rem, 3vw, 1.625rem);
 }
 
 .form {
   background-color: var(--todobox-color);
   border-radius: 4px;
   margin-bottom: 1rem;
+  transition: background-color 0.75s ease;
 }
 .form__todo {
   background-color: transparent;
-  background-image: radial-gradient(1.125rem circle at 1.75rem 1.5rem, var(--todobox-color) 50%, transparent 51%), radial-gradient(1.25rem circle at 1.75rem 1.5rem, var(--color-three) 50%, transparent 51%);
+  background-image: radial-gradient(clamp(1.125rem, 2.8vw, 1.5rem) circle at clamp(1.75rem, 3vw, 2.125rem) clamp(1.5rem, 3vw, 2rem), var(--todobox-color) 50%, transparent 51%), radial-gradient(clamp(1.25rem, 3vw, 1.625rem) circle at clamp(1.75rem, 3vw, 2.125rem) clamp(1.5rem, 3vw, 2rem), var(--color-three) 50%, transparent 51%);
   border-radius: 4px;
   color: var(--todotext-color);
-  height: 3rem;
-  padding-left: 3.25rem;
+  height: clamp(3rem, 10vw, 4rem);
+  padding-left: clamp(3.25rem, 6vw, 4.5rem);
+  transition: color 0.75s ease;
   width: 100%;
 }
 
+.todo__container {
+  box-shadow: 0 0 1rem 10px var(--shadow);
+}
+.todo__items {
+  max-height: 20rem;
+  overflow: hidden auto;
+}
+.todo__items::-webkit-scrollbar {
+  width: 6px;
+}
+.todo__items::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+.todo__items::-webkit-scrollbar-thumb {
+  background: #888;
+}
+.todo__items::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
 .todo__check {
   height: 1.25rem;
   left: 1.25rem;
@@ -234,7 +282,7 @@ button:focus-visible {
   width: 1.25rem;
 }
 .todo__check:focus-visible + .todo__label::before {
-  box-shadow: 0 0 1px 2px var(--todobox-color), 0 0 1px 3px var(--color-outline);
+  box-shadow: 0 0 1px 2px var(--todobox-color), 0 0 1px 4px var(--color-outline);
 }
 .todo__check:checked ~ .todo__label {
   color: var(--color-two);
@@ -253,13 +301,13 @@ button:focus-visible {
   border-bottom: 1px solid var(--color-three);
   color: var(--todotext-color);
   display: flex;
-  height: 3.3125rem;
+  height: clamp(3.3125rem, 5vw, 4rem);
   justify-content: space-between;
-  padding: 0 1.25rem;
+  padding: 0 clamp(1.25rem, 3vw, 1.5rem);
   position: relative;
-  transition: -webkit-transform 0.3s ease;
-  transition: transform 0.3s ease;
-  transition: transform 0.3s ease, -webkit-transform 0.3s ease;
+  transition: background-color 0.75s ease, color 0.75s ease, border-color 0.75s ease, -webkit-transform 0.75s ease;
+  transition: transform 0.75s ease, background-color 0.75s ease, color 0.75s ease, border-color 0.75s ease;
+  transition: transform 0.75s ease, background-color 0.75s ease, color 0.75s ease, border-color 0.75s ease, -webkit-transform 0.75s ease;
 }
 .todo__item:first-of-type {
   border-radius: 4px 4px 0 0;
@@ -272,37 +320,40 @@ button:focus-visible {
   opacity: 0.3;
 }
 .todo__label {
-  padding-left: 2rem;
+  padding-left: clamp(2rem, 4vw, 3rem);
   position: relative;
-  transition: color 0.3s ease;
+  transition: color 0.75s ease;
 }
 .todo__label::before {
   content: url("../Images/icon-check.svg");
   border-radius: 50%;
   background: linear-gradient(to right, #57ddff, #c058f3);
-  height: 1.25rem;
+  display: grid;
+  height: clamp(1.25rem, 2vw, 1.5rem);
   left: 0;
-  padding: 6px 0 0 5px;
+  place-content: center;
   position: absolute;
-  -webkit-transform: translateY(-25%);
-          transform: translateY(-25%);
+  -webkit-transform: translateY(-50%);
+          transform: translateY(-50%);
   -webkit-transform-origin: center;
           transform-origin: center;
-  width: 1.25rem;
+  top: 50%;
+  width: clamp(1.25rem, 2vw, 1.5rem);
 }
 .todo__label::after {
   content: "";
-  background: var(--todobox-color);
+  background-color: var(--todobox-color);
   border: 1px solid var(--color-three);
   border-radius: 50%;
-  height: 1.375rem;
+  height: clamp(1.375rem, 2vw, 1.625rem);
   left: -1px;
   position: absolute;
-  -webkit-transform: translateY(-25%);
-          transform: translateY(-25%);
+  -webkit-transform: translateY(-50%);
+          transform: translateY(-50%);
   transition: opacity 0.3s ease;
-  top: -1px;
-  width: 1.375rem;
+  top: 50%;
+  transition: background-color 0.75s ease, border-color 0.75s ease;
+  width: clamp(1.375rem, 2vw, 1.625rem);
 }
 .todo__remove {
   background: url("../Images/icon-cross.svg") no-repeat center center;
@@ -320,19 +371,25 @@ button:focus-visible {
   justify-content: space-between;
   margin-bottom: 1rem;
   padding: 0 1.25rem;
+  transition: background-color 0.75s ease, color 0.75s ease;
 }
 .todo__options {
   align-items: center;
   border-radius: 4px;
   background-color: var(--todobox-color);
+  box-shadow: 0 8px 1rem 10px var(--shadow);
   color: var(--color-one);
   display: flex;
   font-size: 0.875rem;
   font-weight: 700;
   height: 3rem;
   justify-content: center;
+  transition: background-color 0.75s ease, color 0.75s ease;
 }
-.todo__option:nth-of-type(2) {
+.todo__option:first-of-type, .todo__option:last-of-type {
+  display: none;
+}
+.todo__option:nth-of-type(3) {
   margin: 0 1.125rem;
 }
 .todo__option button {
@@ -341,42 +398,89 @@ button:focus-visible {
 .todo__option.selected {
   color: #3a7bfd;
 }
+.todo__bottom-text {
+  color: var(--color-two);
+  font-size: 0.875rem;
+  margin-top: 2.5rem;
+  text-align: center;
+}
 
 @-webkit-keyframes checked {
   20% {
-    -webkit-transform: scale(0.9) translateY(-25%);
-            transform: scale(0.9) translateY(-25%);
+    -webkit-transform: scale(0.9) translateY(-50%);
+            transform: scale(0.9) translateY(-50%);
   }
   50% {
-    -webkit-transform: scale(1.15) translateY(-25%);
-            transform: scale(1.15) translateY(-25%);
+    -webkit-transform: scale(1.15) translateY(-50%);
+            transform: scale(1.15) translateY(-50%);
   }
   75% {
-    -webkit-transform: scale(0.9) translateY(-25%);
-            transform: scale(0.9) translateY(-25%);
+    -webkit-transform: scale(0.9) translateY(-50%);
+            transform: scale(0.9) translateY(-50%);
   }
   100% {
-    -webkit-transform: scale(1) translateY(-25%);
-            transform: scale(1) translateY(-25%);
+    -webkit-transform: scale(1) translateY(-50%);
+            transform: scale(1) translateY(-50%);
   }
 }
 
 @keyframes checked {
   20% {
-    -webkit-transform: scale(0.9) translateY(-25%);
-            transform: scale(0.9) translateY(-25%);
+    -webkit-transform: scale(0.9) translateY(-50%);
+            transform: scale(0.9) translateY(-50%);
   }
   50% {
-    -webkit-transform: scale(1.15) translateY(-25%);
-            transform: scale(1.15) translateY(-25%);
+    -webkit-transform: scale(1.15) translateY(-50%);
+            transform: scale(1.15) translateY(-50%);
   }
   75% {
-    -webkit-transform: scale(0.9) translateY(-25%);
-            transform: scale(0.9) translateY(-25%);
+    -webkit-transform: scale(0.9) translateY(-50%);
+            transform: scale(0.9) translateY(-50%);
   }
   100% {
-    -webkit-transform: scale(1) translateY(-25%);
-            transform: scale(1) translateY(-25%);
+    -webkit-transform: scale(1) translateY(-50%);
+            transform: scale(1) translateY(-50%);
+  }
+}
+@media (min-width: 50em) {
+  .todo__remaining {
+    display: none;
+  }
+  .todo__options {
+    border-radius: 0 0 4px 4px;
+    padding: 0 1.5rem;
+  }
+  .todo__option {
+    transition: color 0.3s ease;
+  }
+  .todo__option:first-of-type {
+    display: block;
+    font-weight: 400;
+    margin-right: auto;
+    width: 7rem;
+  }
+  .todo__option:last-of-type {
+    display: block;
+    font-weight: 400;
+    margin-left: auto;
+  }
+  .todo__option:hover {
+    color: var(--todotext-color);
+  }
+  .todo__label {
+    cursor: pointer;
+  }
+  .todo__label::after {
+    transition: border-color 0.3s ease, -webkit-transform 0.3s ease;
+    transition: border-color 0.3s ease, transform 0.3s ease;
+    transition: border-color 0.3s ease, transform 0.3s ease, -webkit-transform 0.3s ease;
+    -webkit-transform-origin: center;
+            transform-origin: center;
+  }
+  .todo__label:hover::after {
+    border-color: transparent;
+    -webkit-transform: scale(0.85) translateY(-58%);
+            transform: scale(0.85) translateY(-58%);
   }
 }
 /*# sourceMappingURL=style.css.map */

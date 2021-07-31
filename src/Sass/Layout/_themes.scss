@@ -1,5 +1,11 @@
 @use "../Abstract/variables" as var;
 
-.darkmode {
-  --body-color: red;
+.lightmode {
+  --body-color: #F9F9F9;
+  --todobox-color: #FFFFFF;
+  --todotext-color: hsl(235, 19%, 35%);
+  --color-two: hsl(233, 11%, 84%);
+  --color-three: hsl(233, 11%, 84%);
+  --color-outline: hsl(235, 19%, 35%);
+  --shadow: rgba(143, 143, 143, 0.1);
 }
