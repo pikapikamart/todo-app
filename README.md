@@ -30,7 +30,7 @@ Users should be able to:
 
 ### Links
 
-Live Site URL: [Live site of the challenge hosted here]
+Live Site URL: [Live site of the challenge hosted here](https://gallant-albattani-35cdfb.netlify.app/)
 
 ## My process
 
