@@ -19,31 +19,36 @@ const Heading = () =>{
   return (
     <div className='heading'>
       <h2 className='heading__title'>TODO</h2>
-      <div className='heading__modes'>
-        <div className="heading__mode-wrapper">
-          <input 
-            type='radio'
-            id='darkmode'
-            name='colormode'
-            aria-label='toggle darkmode'
-            value='darkmode'
-            defaultChecked
-            onChange={handleChangeMode}
-            />
-          <label htmlFor="darkmode">
-          </label>
-          <input 
-            type='radio' 
-            id='lightmode' 
-            name='colormode' 
-            aria-label='toggle lightmode'
-            onChange={handleChangeMode}
-             />
-          <label htmlFor="lightmode">
-          </label>
-          <div className="heading__focus-trick"></div>
-        </div>
-      </div>
+      <fieldset className="colormodes">
+        <legend className="visually-hidden">Color mode selections</legend>
+        <input 
+          className="colormodes__input"
+          type='radio'
+          id='darkmode'
+          name='colormode'
+          aria-label='darkmode'
+          value='darkmode'
+          defaultChecked
+          onChange={handleChangeMode}
+          />
+        <label
+          htmlFor="darkmode"
+          className="colormodes__toggler"
+        />
+        <input 
+          className="colormodes__input"
+          type='radio' 
+          id='lightmode' 
+          name='colormode' 
+          aria-label='lightmode'
+          onChange={handleChangeMode}
+           />
+        <label
+          htmlFor="lightmode"
+          className="colormodes__toggler"
+        />
+        <div className="colormodes__focus-trick"></div>
+      </fieldset> 
     </div>
   );
 }

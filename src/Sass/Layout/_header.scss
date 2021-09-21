@@ -1,0 +1,99 @@
+@use "../Abstract/extension";
+@use "../Abstract/functions" as func;
+@use "../Abstract/variables" as var;
+
+
+.heading {
+  align-items: center;
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: func.rem(32);
+
+  &__title {
+    color: #FFFFFF;
+    font-size: func.fluid(28, 5vw, 40);
+    letter-spacing: 6px;
+  }
+}
+
+.colormodes {
+  $root: &;
+  border: none;
+  height: func.fluid(28, 5vw, 34);
+  margin: 0;
+  overflow: hidden;
+  padding: 0;
+  position: relative;
+  width: func.fluid(28, 5vw, 34);
+
+  &__input {
+    height: func.rem(20);
+    opacity: 0;
+    position: absolute;
+    right: 0;
+    width: 20px;
+
+    &:focus-visible {
+
+      ~ #{$root}__focus-trick {
+        outline: 2px dashed #FFFFFF;
+        outline-offset: 2px;
+        z-index: 59;
+      }
+    }
+
+    &:first-of-type {
+
+      &:checked {
+
+        + label {
+          opacity: 0;
+          transform: translateX(28px) rotate(360deg);
+        }
+
+        ~ input[type='radio'] {
+          
+          + label {
+            opacity: 1;
+            transform: translateX(-3px);
+          }
+        }
+      }
+    }
+  }
+
+  &__toggler {
+    cursor: pointer;
+    display: inline-block;
+    height: func.fluid(20, 3vw, 26);
+    position: absolute;
+    right: 1px;
+    top: 1px;
+    transition: transform .75s ease,
+                opacity .75s ease;
+    width: func.fluid(20, 3vw, 26);
+    z-index: 20;
+
+    &:first-of-type {
+      background: url("../Images/icon-moon.svg") no-repeat center center;
+      background-size: cover;
+      opacity: 1;
+      transform: translateX(-3px);
+    }
+  
+    &:last-of-type {
+      background: url("../Images/icon-sun.svg") no-repeat center center;
+      background-size: cover;
+      opacity: 0;
+      transform: translateX(28px) rotate(360deg);
+    }
+  }
+
+  &__focus-trick {
+    height: func.fluid(20, 3vw, 26);
+    position: absolute;
+    right: 4px;
+    top: 3px;
+    width: func.fluid(20, 3vw, 26);
+  }
+}

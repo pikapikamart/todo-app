@@ -97,6 +97,84 @@ button {
   --shadow: rgba(143, 143, 143, 0.1);
 }
 
+.heading {
+  align-items: center;
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 2rem;
+}
+.heading__title {
+  color: #FFFFFF;
+  font-size: clamp(1.75rem, 5vw, 2.5rem);
+  letter-spacing: 6px;
+}
+
+.colormodes {
+  border: none;
+  height: clamp(1.75rem, 5vw, 2.125rem);
+  margin: 0;
+  overflow: hidden;
+  padding: 0;
+  position: relative;
+  width: clamp(1.75rem, 5vw, 2.125rem);
+}
+.colormodes__input {
+  height: 1.25rem;
+  opacity: 0;
+  position: absolute;
+  right: 0;
+  width: 20px;
+}
+.colormodes__input:focus-visible ~ .colormodes__focus-trick {
+  outline: 2px dashed #FFFFFF;
+  outline-offset: 2px;
+  z-index: 59;
+}
+.colormodes__input:first-of-type:checked + label {
+  opacity: 0;
+  -webkit-transform: translateX(28px) rotate(360deg);
+          transform: translateX(28px) rotate(360deg);
+}
+.colormodes__input:first-of-type:checked ~ input[type=radio] + label {
+  opacity: 1;
+  -webkit-transform: translateX(-3px);
+          transform: translateX(-3px);
+}
+.colormodes__toggler {
+  cursor: pointer;
+  display: inline-block;
+  height: clamp(1.25rem, 3vw, 1.625rem);
+  position: absolute;
+  right: 1px;
+  top: 1px;
+  transition: opacity 0.75s ease, -webkit-transform 0.75s ease;
+  transition: transform 0.75s ease, opacity 0.75s ease;
+  transition: transform 0.75s ease, opacity 0.75s ease, -webkit-transform 0.75s ease;
+  width: clamp(1.25rem, 3vw, 1.625rem);
+  z-index: 20;
+}
+.colormodes__toggler:first-of-type {
+  background: url("../Images/icon-moon.svg") no-repeat center center;
+  background-size: cover;
+  opacity: 1;
+  -webkit-transform: translateX(-3px);
+          transform: translateX(-3px);
+}
+.colormodes__toggler:last-of-type {
+  background: url("../Images/icon-sun.svg") no-repeat center center;
+  background-size: cover;
+  opacity: 0;
+  -webkit-transform: translateX(28px) rotate(360deg);
+          transform: translateX(28px) rotate(360deg);
+}
+.colormodes__focus-trick {
+  height: clamp(1.25rem, 3vw, 1.625rem);
+  position: absolute;
+  right: 4px;
+  top: 3px;
+  width: clamp(1.25rem, 3vw, 1.625rem);
+}
+
 #root {
   max-width: 33.75rem;
   width: 100%;
@@ -160,83 +238,6 @@ button:focus-visible {
     background-image: url("../Images/bg-desktop-dark.jpg");
   }
 }
-.heading {
-  align-items: center;
-  display: flex;
-  justify-content: space-between;
-  margin-bottom: 2rem;
-}
-.heading__title {
-  color: #FFFFFF;
-  font-size: clamp(1.75rem, 5vw, 2.5rem);
-  letter-spacing: 6px;
-}
-.heading__modes {
-  height: clamp(1.75rem, 5vw, 2.125rem);
-  overflow: hidden;
-  position: relative;
-  width: clamp(1.75rem, 5vw, 2.125rem);
-}
-.heading__modes input[type=radio] {
-  height: 1.25rem;
-  opacity: 0;
-  position: absolute;
-  right: 0;
-  width: 20px;
-}
-.heading__modes input[type=radio]:focus-visible ~ .heading__focus-trick {
-  outline: 2px dashed #FFFFFF;
-  outline-offset: 2px;
-  z-index: 59;
-}
-.heading__modes input[type=radio]:first-of-type:checked + label {
-  opacity: 0;
-  -webkit-transform: translateX(28px) rotate(360deg);
-          transform: translateX(28px) rotate(360deg);
-}
-.heading__modes input[type=radio]:first-of-type:checked ~ input[type=radio] + label {
-  opacity: 1;
-  -webkit-transform: translateX(-3px);
-          transform: translateX(-3px);
-}
-.heading__modes label {
-  cursor: pointer;
-  display: inline-block;
-  height: clamp(1.25rem, 3vw, 1.625rem);
-  position: absolute;
-  right: 1px;
-  top: 1px;
-  transition: opacity 0.75s ease, -webkit-transform 0.75s ease;
-  transition: transform 0.75s ease, opacity 0.75s ease;
-  transition: transform 0.75s ease, opacity 0.75s ease, -webkit-transform 0.75s ease;
-  width: clamp(1.25rem, 3vw, 1.625rem);
-  z-index: 20;
-}
-.heading__modes label:first-of-type {
-  background: url("../Images/icon-moon.svg") no-repeat center center;
-  background-size: cover;
-  opacity: 1;
-  -webkit-transform: translateX(-3px);
-          transform: translateX(-3px);
-}
-.heading__modes label:last-of-type {
-  background: url("../Images/icon-sun.svg") no-repeat center center;
-  background-size: cover;
-  opacity: 0;
-  -webkit-transform: translateX(28px) rotate(360deg);
-          transform: translateX(28px) rotate(360deg);
-}
-.heading__mode-wrapper {
-  position: relative;
-}
-.heading__focus-trick {
-  height: clamp(1.25rem, 3vw, 1.625rem);
-  position: absolute;
-  right: 4px;
-  top: 3px;
-  width: clamp(1.25rem, 3vw, 1.625rem);
-}
-
 .form {
   background-color: var(--todobox-color);
   border-radius: 4px;
