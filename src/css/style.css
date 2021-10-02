@@ -107,7 +107,7 @@ button {
   color: #FFFFFF;
   font-size: clamp(1.75rem, 5vw, 2.5rem);
   letter-spacing: 6px;
-  text-transform: capitalize;
+  text-transform: uppercase;
 }
 
 .colormodes {
