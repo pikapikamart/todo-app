@@ -18,7 +18,7 @@ const Heading = () =>{
 
   return (
     <div className='heading'>
-      <h2 className='heading__title'>TODO</h2>
+      <h2 className='heading__title'>todo</h2>
       <fieldset className="colormodes">
         <legend className="visually-hidden">Color mode selections</legend>
         <input 
